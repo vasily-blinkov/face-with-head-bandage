@@ -3,12 +3,48 @@
 <head>
   <meta charset="UTF-8">
   <title>Bandage</title>
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="manifest" href="/site.webmanifest">
+  <style>
+  :root {
+    --color-green: #5cff60;
+    --color-red: #be2339;
+  }
+  html {
+    background: var(--color-red);
+    color: var(--color-green);
+    font-family: "Segoe UI", Roboto, sans-serif;
+    font-size: 16px;
+    line-height:1.5;
+  }
+  .hidden {
+    display: none;
+  }
+  </style>
 </head>
 <body>
-  <h1>🤕2</h1>
+  <div class="id--content hidden">
+    Ща как все заработает&hellip;
+  </div>
+  <div class="id--dead">
+    <!-- Браузер не поддерживает все то, что надо для этой штуки. -->
+    <p class="id--text">Проверяю браузер&hellip;</p>
+  </div>
+  <script>
+    window.onload = () => {
+      if (!window.indexedDB) {
+        const textEl = document.querySelector('.id--dead .id--text');
+        textEl.innerHTML = 'В этом браузере нет поддержки IndexedDB.';
+      } else {
+        const contentEl = document.querySelector('.id--content');
+        const deadEl = document.querySelector('.id--dead');
+        contentEl.classList.remove('hidden');
+        deadEl.classList.add('hidden');
+      }
+    };
+  </script>
 </body>
 </html>
