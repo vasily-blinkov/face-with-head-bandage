@@ -6,8 +6,16 @@
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <style>
   :root {
+    --color-black: black;
     --color-green: #5cff60;
     --color-red: #be2339;
+    --color-white: white;
+    --space-margin: 8px;
+    --space-padding: 7px;
+  }
+  * {
+    margin: 0;
+    padding: 0;
   }
   html {
     background: var(--color-red);
@@ -19,16 +27,59 @@
   .hidden {
     display: none;
   }
+  .id--toolbox {
+    background: transparent;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    margin: var(--space-margin);
+    padding: var(--space-padding);
+  }
+  .id--toolbox .item {
+    margin: 0 var(--space-margin);
+  }
+  .id--path {
+    background: black;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: left;
+    margin: var(--space-margin);
+    padding: var(--space-padding);
+  }
+  .id--path .item {
+    margin: 0 var(--space-margin);
+  }
   </style>
 </head>
 <body>
   <div class="id--content hidden">
-    Ща как все заработает&hellip;
+    <div class="id--toolbox">
+      <div class="id--open item">Import</div>
+      <div class="id--save item">Export</div>
+    </div>
+    <div class="id--path">
+      <div class="id--91177c14-c32a-43a0-9013-5d5e87d288eb item">
+        /
+      </div>
+      <div class="id--558b9f44-a933-435d-82bc-388bde8c25c5 item">
+        Польша
+      </div>
+      <div class="id--556cca13-055b-478b-8f54-2b2e41ec1664 item">
+        ABW
+      </div>
+      <div class="id--995c69de-3394-4f65-baf0-651c6267da01 item">
+        Варшава
+      </div>
+    </div>
+    <div class="id--activity">
+      Ща как все заработает&hellip;
+    </div>
   </div>
   <div class="id--dead">
     <!-- Браузер не поддерживает все то, что надо для этой штуки. -->
     <p class="id--text">Проверяю браузер&hellip;</p>
   </div>
+  <script src="nocommit.js"></script>
   <script>
     window.onload = () => {
       const textEl = document.querySelector('.id--dead .id--text');
