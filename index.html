@@ -31,9 +31,11 @@
   </div>
   <script>
     window.onload = () => {
+      const textEl = document.querySelector('.id--dead .id--text');
       if (!window.indexedDB) {
-        const textEl = document.querySelector('.id--dead .id--text');
         textEl.innerHTML = 'В этом браузере нет поддержки IndexedDB.';
+      } else if (!window.showDirectoryPicker) {
+        textEl.innerHTML = 'В этом браузере нет доступа к файлам.'
       } else {
         const contentEl = document.querySelector('.id--content');
         const deadEl = document.querySelector('.id--dead');
