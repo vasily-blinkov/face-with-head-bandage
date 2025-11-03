@@ -11,6 +11,7 @@
     --color-green: #5cff60;
     --color-red: #be2339;
     --color-white: white;
+    --space-btnMargin: 1px;
     --space-margin: 8px;
     --space-padding: 7px;
     --size-folderCircle: 160px;
@@ -36,6 +37,9 @@
     background: var(--color-green);
     border: none;
   }
+  button:hover {
+    background: var(--color-black);
+  }
   /* Переиспользуемые классы */
   .hidden {
     display: none;
@@ -50,7 +54,12 @@
     padding: var(--space-padding);
   }
   .id--toolbox .item {
+    cursor: pointer; /* на Android с мышкой нет руки */
+    cursor: default;
     margin: 0 var(--space-margin);
+  }
+  .id--toolbox .item:hover {
+    text-decoration: underline;
   }
   /* Верстка. Хлебные крошки */
   .id--path {
@@ -62,7 +71,16 @@
     padding: var(--space-padding);
   }
   .id--path .item {
+    background-color: transparent;
+    cursor: pointer;
+    cursor: default;
     margin: 0 var(--space-margin);
+    padding: var(--space-padding);
+    transition: background-color 1s ease, color 1s ease;
+  }
+  .id--path .item:hover {
+    background-color: var(--color-green);
+    color: var(--color-black);
   }
   /* Верстка. Рабочая зона */
   .id--activity {
@@ -98,35 +116,83 @@
     flex-wrap: wrap;
     justify-content: center;
   }
+  /* Верстка. Рабочая зона. Папка. Правый джойстик */
   .id--activity .id--folder .item .ctrl .btn {
+    /* Переменные для этого блока (кнопки управления папкой в списке) */
+    --radius-coefficient: 3;
+    /* Непосредственно стили кнопок управления папкой в списке папок */
     box-sizing: border-box;
     display: flex;
     font-size: 1.75rem;
     height: calc(var(--size-folderCircle) / 2);
     width: calc(var(--size-folderCircle) / 2);
   }
-  .id--activity .id--folder .item .ctrl .btn.edit {
+  .id--activity .id--folder .item .ctrl .btn button {
+    box-sizing: border-box;
+    display: flex; /* прижимка глифов ближе к центру */
+    font-size: calc(1.25 * var(--size-fontBase));
+    height: calc(var(--radius-coefficient) * var(--size-fontBase));
+    padding: var(--space-padding);
+    transition: transform 1s ease;
+    width: calc(var(--radius-coefficient) * var(--size-fontBase));
+  }
+  .id--activity .id--folder .item .ctrl .btn button:hover {
+    transform: scale(1.2);
+  }
+  .id--activity .id--folder .item .ctrl .btn.edit,
+  .id--activity .id--folder .item .ctrl .btn.edit button {
     align-items: flex-end;
     justify-content: right;
   }
-  .id--activity .id--folder .item .ctrl .btn.del {
+  .id--activity .id--folder .item .ctrl .btn.edit button {
+    transform-origin: bottom right;
+  }
+  .id--activity .id--folder .item .ctrl .btn.del,
+  .id--activity .id--folder .item .ctrl .btn.del button {
     align-items: flex-start;
     justify-content: right;
   }
-  .id--activity .id--folder .item .ctrl .btn.up {
+  .id--activity .id--folder .item .ctrl .btn.del button {
+    transform-origin: top right;
+  }
+  .id--activity .id--folder .item .ctrl .btn.up,
+  .id--activity .id--folder .item .ctrl .btn.up button {
     align-items: flex-end;
     justify-content: left;
   }
-  .id--activity .id--folder .item .ctrl .btn.down {
+  .id--activity .id--folder .item .ctrl .btn.up button {
+    transform-origin: bottom left;
+  }
+  .id--activity .id--folder .item .ctrl .btn.down
+  .id--activity .id--folder .item .ctrl .btn.down button {
     align-items: flex-start;
     justify-content: left;
+  }
+  .id--activity .id--folder .item .ctrl .btn.down button {
+    transform-origin: top left;
   }
   .id--activity .id--folder .item .description {
     flex-grow: 1;
   }
-  .id--activity .id--folder .item .ctrl .btn button {
-    height: calc(2 * var(--size-fontBase));
-    width: calc(2 * var(--size-fontBase));
+  .id--activity .id--folder .item .ctrl .btn button[name="editFolder"] {
+    border-top-left-radius: calc(
+      var(--radius-coefficient) * var(--size-fontBase));
+    margin: 0 var(--space-btnMargin) var(--space-btnMargin) 0;
+  }
+  .id--activity .id--folder .item .ctrl .btn button[name="delFolder"] {
+    border-bottom-left-radius: calc(
+      var(--radius-coefficient) * var(--size-fontBase));
+    margin: var(--space-btnMargin) var(--space-btnMargin) 0 0;
+  }
+  .id--activity .id--folder .item .ctrl .btn button[name="upFolder"] {
+    border-top-right-radius: calc(
+      var(--radius-coefficient) * var(--size-fontBase));
+    margin: 0 0 var(--space-btnMargin) var(--space-btnMargin);
+  }
+  .id--activity .id--folder .item .ctrl .btn button[name="downFolder"] {
+    border-bottom-right-radius: calc(
+      var(--radius-coefficient) * var(--size-fontBase));
+    margin: var(--space-btnMargin) 0 0 var(--space-btnMargin);    
   }
   .id--activity .id--folder .item .description .name,
   .id--activity .id--folder .item .description .note {
@@ -164,13 +230,7 @@
             <div class="name"><h1>Древесные коты</h1></div>
             <div class="note">
               В данную папку складывать древесных котов.
-              Внутри – группировка по кланам.<!--
-              2 В данную папку складывать древесных котов.
               Внутри – группировка по кланам.
-              3 В данную папку складывать древесных котов.
-              Внутри – группировка по кланам.
-              4 В данную папку складывать древесных котов.
-              Внутри – группировка по кланам.-->
             </div>
           </div>
           <div class="ctrl">
@@ -178,13 +238,13 @@
               <button name="editFolder">🖍</button>
             </div>
             <div class="btn up">
-              <button name="editFolder">⬆</button>
+              <button name="upFolder">🔺</button>
             </div>
             <div class="btn del">
-              <button name="editFolder">💀</button>
+              <button name="delFolder">💀</button>
             </div>
             <div class="btn down">
-              <button name="editFolder">⬇</button>
+              <button name="downFolder">🔻</button>
             </div>
           </div>
         </div>
