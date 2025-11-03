@@ -5,6 +5,7 @@
   <title>Bandage</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <style>
+  /* Базовые настройки */
   :root {
     --color-black: black;
     --color-green: #5cff60;
@@ -12,6 +13,7 @@
     --color-white: white;
     --space-margin: 8px;
     --space-padding: 7px;
+    --size-folderCircle: 80px;
   }
   * {
     margin: 0;
@@ -24,9 +26,11 @@
     font-size: 16px;
     line-height:1.5;
   }
+  /* Переиспользуемые классы */
   .hidden {
     display: none;
   }
+  /* Верстка. Панель инструментов для работы с базой */
   .id--toolbox {
     background: transparent;
     box-sizing: border-box;
@@ -38,6 +42,7 @@
   .id--toolbox .item {
     margin: 0 var(--space-margin);
   }
+  /* Верстка. Хлебные крошки */
   .id--path {
     background: black;
     box-sizing: border-box;
@@ -48,6 +53,21 @@
   }
   .id--path .item {
     margin: 0 var(--space-margin);
+  }
+  /* Верстка. Рабочая зона */
+  .id--activity {
+    margin: var(--space-margin);
+  }
+  /* Верстка. Рабочая зона. Папка */
+  .id--activity .id--folder .item {
+    display: flex;
+  }
+  .id--activity .id--folder .item .icon,
+  .id--activity .id--folder .item .ctrl  {
+    align-items: center;
+    display: flex;
+    flex: 0 0 var(--size-folderCircle);
+    justify-content: center;
   }
   </style>
 </head>
@@ -63,17 +83,39 @@
         /
       </div>
       <div class="id--558b9f44-a933-435d-82bc-388bde8c25c5 item">
-        Польша
+        Звездная Империя Мантикора
       </div>
       <div class="id--556cca13-055b-478b-8f54-2b2e41ec1664 item">
-        ABW
+        Сфинкс
       </div>
       <div class="id--995c69de-3394-4f65-baf0-651c6267da01 item">
-        Варшава
+        Твин-Форкс
       </div>
     </div>
     <div class="id--activity">
-      Ща как все заработает&hellip;
+      <div class="id--folder">
+        <!-- Интерфейс папки, содержит персов и другие папки. -->
+        <div class="id--91177c14-c32a-43a0-9013-5d5e87d288eb item">
+          <div class="icon">🆔</div>
+          <div class="description">
+            <div class="name">Древесные коты</div>
+            <div class="note">
+              В данную папку складывать древесных котов.
+              Внутри – группировка по кланам.
+            </div>
+          </div>
+          <div class="ctrl">🐶</div>
+        </div>
+        <div class="id--558b9f44-a933-435d-82bc-388bde8c25c5 item"></div>
+        <div class="id--556cca13-055b-478b-8f54-2b2e41ec1664 item"></div>
+        <div class="id--995c69de-3394-4f65-baf0-651c6267da01 item"></div>
+      </div>
+      <div class="id--character">
+        <!-- Интерфейс персонажа: атрибуты, фотки. -->
+      </div>
+      <div class="id--attributes">
+        <!-- Интерфейс управления атрибутами. -->
+      </div>
     </div>
   </div>
   <div class="id--dead">
