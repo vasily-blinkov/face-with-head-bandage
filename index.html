@@ -27,7 +27,7 @@
     color: var(--color-green);
     font-family: "Segoe UI", Roboto, sans-serif;
     font-size: var(--size-fontBase);
-    line-height:1.5;
+    line-height: 1.5;
   }
   h1 {
     font-size: 2rem;
@@ -115,6 +115,19 @@
     flex: 0 0 var(--size-folderCircle);
     flex-wrap: wrap;
     justify-content: center;
+  }
+  /* Верстка. Рабочая зона. Папка. Настраиваемый аватар */
+  .id--activity .id--folder .item .icon .glyph {
+    --fontSize: calc(4 * var(--size-fontBase));
+    --bgSize: calc(7 * var(--size-fontBase)); 
+    align-items: center;
+    background-color: #731d04; /* должно браться из базы */
+    border-radius: calc(var(--bgSize) / 2);
+    display: flex;
+    font-size: var(--fontSize);
+    height: var(--bgSize);
+    justify-content: center;
+    width: var(--bgSize);
   }
   /* Верстка. Рабочая зона. Папка. Правый джойстик */
   .id--activity .id--folder .item .ctrl .btn {
@@ -225,7 +238,9 @@
       <div class="id--folder">
         <!-- Интерфейс папки, содержит персов и другие папки. -->
         <div class="id--91177c14-c32a-43a0-9013-5d5e87d288eb item">
-          <div class="icon">🆔</div>
+          <div class="icon">
+            <div class="glyph">🐈</div>
+          </div>
           <div class="description">
             <div class="name"><h1>Древесные коты</h1></div>
             <div class="note">
@@ -266,6 +281,7 @@
   </div>
   <script src="debug/webcode.js"></script>
   <script>
+    console.log(JSON.stringify({one: 1}));
     window.onload = () => {
       const textEl = document.querySelector('.id--dead .id--text');
       if (!window.indexedDB) {
