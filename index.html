@@ -1,222 +1,256 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
   <meta charset="UTF-8">
   <title>Bandage</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <style>
-  /* Базовые настройки */
-  :root {
-    --color-black: black;
-    --color-green: #5cff60;
-    --color-red: #be2339;
-    --color-white: white;
-    --space-btnMargin: 1px;
-    --space-margin: 8px;
-    --space-padding: 7px;
-    --size-folderCircle: 160px;
-    --size-fontBase: 16px;
-  }
-  * {
-    margin: 0;
-    padding: 0;
-  }
-  /* Элементы */
-  html {
-    background: var(--color-red);
-    color: var(--color-green);
-    font-family: "Segoe UI", Roboto, sans-serif;
-    font-size: var(--size-fontBase);
-    line-height: 1.5;
-  }
-  h1 {
-    font-size: 2rem;
-    font-weight: 500;
-  }
-  button {
-    background: var(--color-green);
-    border: none;
-  }
-  button:hover {
-    background: var(--color-black);
-  }
-  /* Переиспользуемые классы */
-  .hidden {
-    display: none;
-  }
-  /* Верстка. Панель инструментов для работы с базой */
-  .id--toolbox {
-    background: transparent;
-    box-sizing: border-box;
-    display: flex;
-    justify-content: center;
-    margin: var(--space-margin);
-    padding: var(--space-padding);
-  }
-  .id--toolbox .item {
-    cursor: pointer; /* на Android с мышкой нет руки */
-    cursor: default;
-    margin: 0 var(--space-margin);
-  }
-  .id--toolbox .item:hover {
-    text-decoration: underline;
-  }
-  /* Верстка. Хлебные крошки */
-  .id--path {
-    background: var(--color-black);
-    box-sizing: border-box;
-    display: flex;
-    justify-content: left;
-    margin: var(--space-margin);
-    padding: var(--space-padding);
-  }
-  .id--path .item {
-    background-color: transparent;
-    cursor: pointer;
-    cursor: default;
-    margin: 0 var(--space-margin);
-    padding: var(--space-padding);
-    transition: background-color 1s ease, color 1s ease;
-  }
-  .id--path .item:hover {
-    background-color: var(--color-green);
-    color: var(--color-black);
-  }
-  /* Верстка. Рабочая зона */
-  .id--activity {
-    margin: var(--space-margin);
-  }
-  /* Верстка. Рабочая зона. Папка */
-  .id--activity .id--folder .item {
-    background: var(--color-white);
-    border-radius: calc(var(--size-folderCircle) / 2);
-    box-sizing: border-box;
-    color: var(--color-black);
-    display: flex;
-    margin-bottom: var(--space-margin);
-    max-height: var(--size-folderCircle);
-    overflow: hidden;
-    /* Затухание при переполнении - это св-во и след. селектор */
-    position: relative;
-  }
-  .id--activity .id--folder .item::after {
-    background: linear-gradient(
-      to bottom, transparent 4%, var(--color-white));
-    bottom: 0;
-    content: '';
-    height: calc(4 * var(--space-padding));
-    left: 0;
-    position: absolute;
-    right: 0;
-  }
-  .id--activity .id--folder .item .icon,
-  .id--activity .id--folder .item .ctrl  {
-    align-items: center;
-    display: flex;
-    flex: 0 0 var(--size-folderCircle);
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-  /* Верстка. Рабочая зона. Папка. Настраиваемый аватар */
-  .id--activity .id--folder .item .icon .glyph {
-    --fontSize: calc(4 * var(--size-fontBase));
-    --bgSize: calc(7 * var(--size-fontBase)); 
-    align-items: center;
-    border-radius: calc(var(--bgSize) / 2);
-    display: flex;
-    font-size: var(--fontSize);
-    height: var(--bgSize);
-    justify-content: center;
-    width: var(--bgSize);
-  }
-  /* Верстка. Рабочая зона. Папка. Настраиваемый аватар */
-  .id--activity .id--folder .item .note {
-    text-align: justify;
-  }
-  /* Верстка. Рабочая зона. Папка. Правый джойстик */
-  .id--activity .id--folder .item .ctrl .btn {
-    /* Переменные для этого блока (кнопки управления папкой в списке) */
-    --radius-coefficient: 3;
-    /* Непосредственно стили кнопок управления папкой в списке папок */
-    box-sizing: border-box;
-    display: flex;
-    font-size: 1.75rem;
-    height: calc(var(--size-folderCircle) / 2);
-    width: calc(var(--size-folderCircle) / 2);
-  }
-  .id--activity .id--folder .item .ctrl .btn button {
-    box-sizing: border-box;
-    display: flex; /* прижимка глифов ближе к центру */
-    font-size: calc(1.25 * var(--size-fontBase));
-    height: calc(var(--radius-coefficient) * var(--size-fontBase));
-    padding: var(--space-padding);
-    transition: transform 1s ease;
-    width: calc(var(--radius-coefficient) * var(--size-fontBase));
-  }
-  .id--activity .id--folder .item .ctrl .btn button:hover {
-    transform: scale(1.2);
-  }
-  .id--activity .id--folder .item .ctrl .btn.edit,
-  .id--activity .id--folder .item .ctrl .btn.edit button {
-    align-items: flex-end;
-    justify-content: right;
-  }
-  .id--activity .id--folder .item .ctrl .btn.edit button {
-    transform-origin: bottom right;
-  }
-  .id--activity .id--folder .item .ctrl .btn.del,
-  .id--activity .id--folder .item .ctrl .btn.del button {
-    align-items: flex-start;
-    justify-content: right;
-  }
-  .id--activity .id--folder .item .ctrl .btn.del button {
-    transform-origin: top right;
-  }
-  .id--activity .id--folder .item .ctrl .btn.up,
-  .id--activity .id--folder .item .ctrl .btn.up button {
-    align-items: flex-end;
-    justify-content: left;
-  }
-  .id--activity .id--folder .item .ctrl .btn.up button {
-    transform-origin: bottom left;
-  }
-  .id--activity .id--folder .item .ctrl .btn.down
-  .id--activity .id--folder .item .ctrl .btn.down button {
-    align-items: flex-start;
-    justify-content: left;
-  }
-  .id--activity .id--folder .item .ctrl .btn.down button {
-    transform-origin: top left;
-  }
-  .id--activity .id--folder .item .description {
-    flex-grow: 1;
-  }
-  .id--activity .id--folder .item .ctrl .btn button[name="editFolder"] {
-    border-top-left-radius: calc(
-      var(--radius-coefficient) * var(--size-fontBase));
-    margin: 0 var(--space-btnMargin) var(--space-btnMargin) 0;
-  }
-  .id--activity .id--folder .item .ctrl .btn button[name="delFolder"] {
-    border-bottom-left-radius: calc(
-      var(--radius-coefficient) * var(--size-fontBase));
-    margin: var(--space-btnMargin) var(--space-btnMargin) 0 0;
-  }
-  .id--activity .id--folder .item .ctrl .btn button[name="upFolder"] {
-    border-top-right-radius: calc(
-      var(--radius-coefficient) * var(--size-fontBase));
-    margin: 0 0 var(--space-btnMargin) var(--space-btnMargin);
-  }
-  .id--activity .id--folder .item .ctrl .btn button[name="downFolder"] {
-    border-bottom-right-radius: calc(
-      var(--radius-coefficient) * var(--size-fontBase));
-    margin: var(--space-btnMargin) 0 0 var(--space-btnMargin);    
-  }
-  .id--activity .id--folder .item .description .name,
-  .id--activity .id--folder .item .description .note {
-    padding: var(--space-padding);
-  }
+    /* Базовые настройки */
+    :root {
+      --color-black: black;
+      --color-green: #5cff60;
+      --color-red: #be2339;
+      --color-white: white;
+      --space-btnMargin: 1px;
+      --space-margin: 8px;
+      --space-padding: 7px;
+      --size-folderCircle: 160px;
+      --size-fontBase: 16px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Элементы */
+    html {
+      background: var(--color-red);
+      color: var(--color-green);
+      font-family: "Segoe UI", Roboto, sans-serif;
+      font-size: var(--size-fontBase);
+      line-height: 1.5;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 500;
+    }
+
+    button {
+      background: var(--color-green);
+      border: none;
+    }
+
+    button:hover {
+      background: var(--color-black);
+    }
+
+    /* Переиспользуемые классы */
+    .hidden {
+      display: none;
+    }
+
+    /* Верстка. Панель инструментов для работы с базой */
+    .id--toolbox {
+      background: transparent;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: center;
+      margin: var(--space-margin);
+      padding: var(--space-padding);
+    }
+
+    .id--toolbox .item {
+      cursor: default;
+      /* на Android с мышкой нет руки */
+      cursor: pointer;
+      margin: 0 var(--space-margin);
+    }
+
+    .id--toolbox .item:hover {
+      text-decoration: underline;
+    }
+
+    /* Верстка. Хлебные крошки */
+    .id--path {
+      background: var(--color-black);
+      box-sizing: border-box;
+      display: flex;
+      justify-content: left;
+      margin: var(--space-margin);
+      padding: var(--space-padding);
+    }
+
+    .id--path .item {
+      background-color: transparent;
+      cursor: default;
+      /* на Android с мышкой нет руки */
+      cursor: pointer;
+      margin: 0 var(--space-margin);
+      padding: var(--space-padding);
+      transition: background-color 1s ease, color 1s ease;
+    }
+
+    .id--path .item:hover {
+      background-color: var(--color-green);
+      color: var(--color-black);
+    }
+
+    /* Верстка. Рабочая зона */
+    .id--activity {
+      margin: var(--space-margin);
+    }
+
+    /* Верстка. Рабочая зона. Папка */
+    .id--activity .id--folder .item {
+      background: var(--color-white);
+      border-radius: calc(var(--size-folderCircle) / 2);
+      box-sizing: border-box;
+      color: var(--color-black);
+      display: flex;
+      margin-bottom: var(--space-margin);
+      max-height: var(--size-folderCircle);
+      overflow: hidden;
+      /* Затухание при переполнении - это св-во и след. селектор */
+      position: relative;
+    }
+
+    .id--activity .id--folder .item::after {
+      background: linear-gradient(to bottom, transparent 4%, var(--color-white));
+      bottom: 0;
+      content: '';
+      height: calc(4 * var(--space-padding));
+      left: 0;
+      position: absolute;
+      right: 0;
+    }
+
+    .id--activity .id--folder .item .icon,
+    .id--activity .id--folder .item .ctrl {
+      align-items: center;
+      display: flex;
+      flex: 0 0 var(--size-folderCircle);
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    /* Верстка. Рабочая зона. Папка. Настраиваемый аватар */
+    .id--activity .id--folder .item .icon .glyph {
+      --fontSize: calc(4 * var(--size-fontBase));
+      --bgSize: calc(7 * var(--size-fontBase));
+      align-items: center;
+      border-radius: calc(var(--bgSize) / 2);
+      display: flex;
+      font-size: var(--fontSize);
+      height: var(--bgSize);
+      justify-content: center;
+      width: var(--bgSize);
+    }
+
+    /* Верстка. Рабочая зона. Папка. Настраиваемый аватар */
+    .id--activity .id--folder .item .note {
+      text-align: justify;
+    }
+
+    /* Верстка. Рабочая зона. Папка. Правый джойстик */
+    .id--activity .id--folder .item .ctrl .btn {
+      /* Переменные для этого блока (кнопки управления папкой в списке) */
+      --radius-coefficient: 3;
+      /* Непосредственно стили кнопок управления папкой в списке папок */
+      box-sizing: border-box;
+      display: flex;
+      font-size: 1.75rem;
+      height: calc(var(--size-folderCircle) / 2);
+      width: calc(var(--size-folderCircle) / 2);
+    }
+
+    .id--activity .id--folder .item .ctrl .btn button {
+      box-sizing: border-box;
+      display: flex;
+      /* прижимка глифов ближе к центру */
+      font-size: calc(1.25 * var(--size-fontBase));
+      height: calc(var(--radius-coefficient) * var(--size-fontBase));
+      padding: var(--space-padding);
+      transition: transform 1s ease;
+      width: calc(var(--radius-coefficient) * var(--size-fontBase));
+    }
+
+    .id--activity .id--folder .item .ctrl .btn button:hover {
+      transform: scale(1.2);
+    }
+
+    .id--activity .id--folder .item .ctrl .btn.edit,
+    .id--activity .id--folder .item .ctrl .btn.edit button {
+      align-items: flex-end;
+      justify-content: right;
+    }
+
+    .id--activity .id--folder .item .ctrl .btn.edit button {
+      transform-origin: bottom right;
+    }
+
+    .id--activity .id--folder .item .ctrl .btn.del,
+    .id--activity .id--folder .item .ctrl .btn.del button {
+      align-items: flex-start;
+      justify-content: right;
+    }
+
+    .id--activity .id--folder .item .ctrl .btn.del button {
+      transform-origin: top right;
+    }
+
+    .id--activity .id--folder .item .ctrl .btn.up,
+    .id--activity .id--folder .item .ctrl .btn.up button {
+      align-items: flex-end;
+      justify-content: left;
+    }
+
+    .id--activity .id--folder .item .ctrl .btn.up button {
+      transform-origin: bottom left;
+    }
+
+    .id--activity .id--folder .item .ctrl .btn.down .id--activity .id--folder .item .ctrl .btn.down button {
+      align-items: flex-start;
+      justify-content: left;
+    }
+
+    .id--activity .id--folder .item .ctrl .btn.down button {
+      transform-origin: top left;
+    }
+
+    .id--activity .id--folder .item .description {
+      flex-grow: 1;
+    }
+
+    .id--activity .id--folder .item .ctrl .btn button[name="editFolder"] {
+      border-top-left-radius: calc(var(--radius-coefficient) * var(--size-fontBase));
+      margin: 0 var(--space-btnMargin) var(--space-btnMargin) 0;
+    }
+
+    .id--activity .id--folder .item .ctrl .btn button[name="delFolder"] {
+      border-bottom-left-radius: calc(var(--radius-coefficient) * var(--size-fontBase));
+      margin: var(--space-btnMargin) var(--space-btnMargin) 0 0;
+    }
+
+    .id--activity .id--folder .item .ctrl .btn button[name="upFolder"] {
+      border-top-right-radius: calc(var(--radius-coefficient) * var(--size-fontBase));
+      margin: 0 0 var(--space-btnMargin) var(--space-btnMargin);
+    }
+
+    .id--activity .id--folder .item .ctrl .btn button[name="downFolder"] {
+      border-bottom-right-radius: calc(var(--radius-coefficient) * var(--size-fontBase));
+      margin: var(--space-btnMargin) 0 0 var(--space-btnMargin);
+    }
+
+    .id--activity .id--folder .item .description .name,
+    .id--activity .id--folder .item .description .note {
+      padding: var(--space-padding);
+    }
   </style>
 </head>
+
 <body>
   <div class="id--content hidden">
     <div class="id--toolbox">
@@ -246,7 +280,9 @@
             <div class="glyph" style="background: #731d04;">🐈</div>
           </div>
           <div class="description">
-            <div class="name"><h1>Древесные коты</h1></div>
+            <div class="name">
+              <h1>Древесные коты</h1>
+            </div>
             <div class="note">
               В данную папку складывать древесных котов.
               Внутри – группировка по кланам.
@@ -272,7 +308,9 @@
             <div class="glyph" style="background: #ad3196;">🌠</div>
           </div>
           <div class="description">
-            <div class="name"><h1>Манти</h1></div>
+            <div class="name">
+              <h1>Манти</h1>
+            </div>
             <div class="note">
               Жители Звездной Империи Мантикоры.
               До присоединения системы Рысь - Королевства Мантикоры.
@@ -303,7 +341,9 @@
             <div class="glyph" style="background: #ad0c00;">🏁</div>
           </div>
           <div class="description">
-            <div class="name"><h1>Хевы</h1></div>
+            <div class="name">
+              <h1>Хевы</h1>
+            </div>
             <div class="note">
               НРХ
             </div>
@@ -325,10 +365,12 @@
         </div> <!-- .item -->
         <div class="id--995c69de-3394-4f65-baf0-651c6267da01 item">
           <div class="icon">
-            <div class="glyph" style="background: #551a0c;">🇨🇳</div>
+            <div class="glyph" style="background: #551a0c;">🏕</div>
           </div>
           <div class="description">
-            <div class="name"><h1>Анди</h1></div>
+            <div class="name">
+              <h1>Анди</h1>
+            </div>
             <div class="note">
               Андермандская империя.
             </div>
@@ -374,12 +416,35 @@
         const deadEl = document.querySelector('.id--dead');
         contentEl.classList.remove('hidden');
         deadEl.classList.add('hidden');
+
+        const dbMgr = new DBManager({ dbId: 'face-with-head-bandage', dbVer: 1 });
+        dbMgr.folders.read();
       }
     };
+
     class DBManager {
-      async function readDir() {
+      #CONST = {
+        STORES: {
+          FOLDERS: 'folders'
+        }
+      };
+
+      #conf;
+
+      /** @param {{dbId: string, dbVer: number}} conf */
+      constructor(conf) {
+        this.#conf = conf;
+      }
+
+      get folders() {
+        return {
+          read: (id) => {
+            console.log('!', this.#conf.dbId);
+          }
+        };
       }
     }
   </script>
 </body>
+
 </html>
