@@ -93,17 +93,18 @@
     box-sizing: border-box;
     color: var(--color-black);
     display: flex;
+    margin-bottom: var(--space-margin);
     max-height: var(--size-folderCircle);
     overflow: hidden;
-    /* Затухание при переполнении */
+    /* Затухание при переполнении - это св-во и след. селектор */
     position: relative;
   }
   .id--activity .id--folder .item::after {
     background: linear-gradient(
-      to bottom, transparent, var(--color-white));
+      to bottom, transparent 4%, var(--color-white));
     bottom: 0;
     content: '';
-    height: calc(2 * var(--space-padding));
+    height: calc(4 * var(--space-padding));
     left: 0;
     position: absolute;
     right: 0;
@@ -121,13 +122,16 @@
     --fontSize: calc(4 * var(--size-fontBase));
     --bgSize: calc(7 * var(--size-fontBase)); 
     align-items: center;
-    background-color: #731d04; /* должно браться из базы */
     border-radius: calc(var(--bgSize) / 2);
     display: flex;
     font-size: var(--fontSize);
     height: var(--bgSize);
     justify-content: center;
     width: var(--bgSize);
+  }
+  /* Верстка. Рабочая зона. Папка. Настраиваемый аватар */
+  .id--activity .id--folder .item .note {
+    text-align: justify;
   }
   /* Верстка. Рабочая зона. Папка. Правый джойстик */
   .id--activity .id--folder .item .ctrl .btn {
@@ -239,7 +243,7 @@
         <!-- Интерфейс папки, содержит персов и другие папки. -->
         <div class="id--91177c14-c32a-43a0-9013-5d5e87d288eb item">
           <div class="icon">
-            <div class="glyph">🐈</div>
+            <div class="glyph" style="background: #731d04;">🐈</div>
           </div>
           <div class="description">
             <div class="name"><h1>Древесные коты</h1></div>
@@ -262,10 +266,88 @@
               <button name="downFolder">🔻</button>
             </div>
           </div>
-        </div>
-        <div class="id--558b9f44-a933-435d-82bc-388bde8c25c5 item"></div>
-        <div class="id--556cca13-055b-478b-8f54-2b2e41ec1664 item"></div>
-        <div class="id--995c69de-3394-4f65-baf0-651c6267da01 item"></div>
+        </div> <!-- .item -->
+        <div class="id--558b9f44-a933-435d-82bc-388bde8c25c5 item">
+          <div class="icon">
+            <div class="glyph" style="background: #ad3196;">🌠</div>
+          </div>
+          <div class="description">
+            <div class="name"><h1>Манти</h1></div>
+            <div class="note">
+              Жители Звездной Империи Мантикоры.
+              До присоединения системы Рысь - Королевства Мантикоры.
+              Рысь - не первая аннексированная система.
+              Сан-Мартин, после освобождения от НРХ включился в
+              состав Мантикоры.
+              До него был еще Василиск, хотя населяющие его ходульники
+              вряд ли столь коммуникабельны, чтобы об этом узнать.
+            </div>
+          </div>
+          <div class="ctrl">
+            <div class="btn edit">
+              <button name="editFolder">🖍</button>
+            </div>
+            <div class="btn up">
+              <button name="upFolder">🔺</button>
+            </div>
+            <div class="btn del">
+              <button name="delFolder">💀</button>
+            </div>
+            <div class="btn down">
+              <button name="downFolder">🔻</button>
+            </div>
+          </div>
+        </div> <!-- .item -->
+        <div class="id--556cca13-055b-478b-8f54-2b2e41ec1664 item">
+          <div class="icon">
+            <div class="glyph" style="background: #ad0c00;">🏁</div>
+          </div>
+          <div class="description">
+            <div class="name"><h1>Хевы</h1></div>
+            <div class="note">
+              НРХ
+            </div>
+          </div>
+          <div class="ctrl">
+            <div class="btn edit">
+              <button name="editFolder">🖍</button>
+            </div>
+            <div class="btn up">
+              <button name="upFolder">🔺</button>
+            </div>
+            <div class="btn del">
+              <button name="delFolder">💀</button>
+            </div>
+            <div class="btn down">
+              <button name="downFolder">🔻</button>
+            </div>
+          </div>
+        </div> <!-- .item -->
+        <div class="id--995c69de-3394-4f65-baf0-651c6267da01 item">
+          <div class="icon">
+            <div class="glyph" style="background: #551a0c;">🇨🇳</div>
+          </div>
+          <div class="description">
+            <div class="name"><h1>Анди</h1></div>
+            <div class="note">
+              Андермандская империя.
+            </div>
+          </div>
+          <div class="ctrl">
+            <div class="btn edit">
+              <button name="editFolder">🖍</button>
+            </div>
+            <div class="btn up">
+              <button name="upFolder">🔺</button>
+            </div>
+            <div class="btn del">
+              <button name="delFolder">💀</button>
+            </div>
+            <div class="btn down">
+              <button name="downFolder">🔻</button>
+            </div>
+          </div>
+        </div> <!-- .item -->
       </div>
       <div class="id--character">
         <!-- Интерфейс персонажа: атрибуты, фотки. -->
@@ -281,7 +363,6 @@
   </div>
   <script src="debug/webcode.js"></script>
   <script>
-    console.log(JSON.stringify({one: 1}));
     window.onload = () => {
       const textEl = document.querySelector('.id--dead .id--text');
       if (!window.indexedDB) {
